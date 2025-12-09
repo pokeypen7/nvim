@@ -266,7 +266,6 @@ local rtp = vim.opt.rtp
 rtp:prepend(lazypath) 
 
 -- NOTE: [[ Configure and install plugins ]]
-require('lazy').setup({
 --
 --  To check the current status of your plugins, run
 --    :Lazy
@@ -276,7 +275,6 @@ require('lazy').setup({
 --  To update plugins you can run
 --    :Lazy update
 --
--- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
@@ -571,10 +569,10 @@ require('lazy').setup({
       },
     },
   },
-        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
+  -- builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+  --   winblend = 10,
+  --   previewer = false,
+  -- })
 
   -- LSP Plugins
   {
@@ -1093,7 +1091,8 @@ require('lazy').setup({
       require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
-  },    
+    end,
+  },
 { -- This plugin
   "Zeioth/compiler.nvim",
   cmd = {"CompilerOpen", "CompilerToggleResults", "CompilerRedo"},
