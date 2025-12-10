@@ -110,7 +110,7 @@ vim.g.have_nerd_font = true
 --  For more options, you can see `:help option-list`
 
 -- Traverse whitespace
-vim.o.virtualedit = block,insert,onemore
+vim.o.virtualedit = "block,onemore,insert"
 
 -- Make line numbers default
 vim.o.number = true
@@ -513,7 +513,7 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sfn', builtin.find_files, { desc = '[S]earch [F]iles [N]ormally' })
+      vim.keymap.set('n', '<leader>sff', builtin.find_files, { desc = '[S]earch [F]iles [F]' })
       vim.keymap.set('n', '<leader>sfh', '<cmd>Telescope<space>find_files<space>find_command=rg,--ignore,--hidden,--files prompt_prefix=🔍<CR>', { desc = '[S]earch [F]iles [H]idden' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
@@ -555,6 +555,10 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+      vim.keymap.set('n', '<leader>s~', function()
+        builtin.find_files { cwd = 'C:\\Users\\nicks PC\\' }
+      end, { desc = '[S]earch [~] for home directory'})
     end,
   },
 
