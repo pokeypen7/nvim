@@ -333,7 +333,7 @@ require('lazy').setup({
     },
   },
 
-{
+  {
     "smoka7/multicursors.nvim",
     event = "VeryLazy",
     dependencies = {
@@ -342,19 +342,19 @@ require('lazy').setup({
     opts = {},
     cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
     keys = {
-            {
+              {
                 mode = { 'v', 'n' },
                 '<Leader>m',
                 '<cmd>MCstart<cr>',
                 desc = 'Create a selection for selected text or word under the cursor',
             },
-        },
-},
+    },
+  },
 
   {
-    'albenisolmos/autochdir.nvim',
+      'albenisolmos/autochdir.nvim',
       -- Useful for not accidentally jumping to other projects and staying in the first project found
-      keep_dir = false,
+      keep_dir = true,
 
       -- Define flags by file extension (default: {})
       flags = {
@@ -365,8 +365,9 @@ require('lazy').setup({
       -- Define generic flags for all files
       generic_flags = {'README.md', '.git'},
 
-      -- Autochair will first find flags from 'flags' and then from 'generic flags'
+      -- Autochdir will first find flags from 'flags' and then from 'generic flags'
   },
+
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
