@@ -84,6 +84,12 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+-- If you are havhing problems with Neovide not loading it could be because Neovim is giving you a message before
+-- it initializes causing Neovide to fail to identify the process
+--
+-- Disable Deprication Messages
+vim.deprecate = function() end
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -544,6 +550,59 @@ require('lazy').setup({
         builtin.find_files { cwd = 'C:\\Users\\nicks PC\\' }
       end, { desc = '[S]earch [~] for home directory'})
     end,
+  },
+
+  {
+    "ahmedkhalf/project.nvim",
+    config = function()
+      require("project_nvim").setup {
+
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- Manual mode doesn't automatically change your root directory, so you have
+        -- the option to manually do so using `:ProjectRoot` command.
+        manual_mode = false,
+
+        -- Methods of detecting the root directory. **"lsp"** uses the native neovim
+        -- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
+        -- order matters: if one is not detected, the other is used as fallback. You
+        -- can also delete or rearangne the detection methods.
+        detection_methods = { "lsp", "pattern" },
+
+        -- All the patterns used to detect root dir, when **"pattern"** is in
+        -- detection_methods
+        patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+
+        -- Table of lsp clients to ignore by name
+        -- eg: { "efm", ... }
+        ignore_lsp = {},
+
+        -- Don't calculate root dir on specific directories
+        -- Ex: { "~/.cargo/*", ... }
+        exclude_dirs = {},
+
+        -- Show hidden files in telescope
+        show_hidden = false,
+
+        -- When set to false, you will get a message when project.nvim changes your
+        -- directory.
+        silent_chdir = false,
+
+        -- What scope to change the directory, valid options are
+        -- * global (default)
+        -- * tab
+        -- * win
+        scope_chdir = 'global',
+
+        -- Path where project.nvim will store the project history for use in
+        -- telescope
+        datapath = vim.fn.stdpath("data"), -- refer to the configuration section below
+
+        -- Telescope Integration
+        -- require('telescope').load_extension('projects'),
+        -- require'telescope'.extensions.projects.projects{},
+      }
+    end
   },
 
   {
