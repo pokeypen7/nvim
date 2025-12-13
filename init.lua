@@ -116,7 +116,7 @@ vim.g.have_nerd_font = true
 --  For more options, you can see `:help option-list`
 
 -- Traverse whitespace
-vim.o.virtualedit = "block,onemore,insert"
+vim.o.virtualedit = "block,insert"
 
 -- Make line numbers default
 vim.o.number = true
@@ -190,9 +190,6 @@ vim.o.confirm = true
 
 -- NOTE: [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
-
--- UndoTree Toggle
-vim.keymap.set('n', '<leader>u', require('undotree').toggle, { noremap = true, silent = true })
 
 -- I started using a nvim server, so I would like ':q' to mean ':detach' so I don't just keep closing my buffers over and over again. Will sort of act like notepad++
 -- vim.keymap.set('n', '<cmd>q<Cr>', vim.func.nvim_buf_detach(0), { noremap = true, silent = true, desc = 'Override :q to detach instead' })
@@ -273,7 +270,7 @@ end
 
 ---@type vim.Option
 local rtp = vim.opt.rtp
-rtp:prepend(lazypath) 
+rtp:prepend(lazypath)
 
 -- NOTE: [[ Configure and install plugins ]]
 --
@@ -355,7 +352,7 @@ require('lazy').setup({
                 mode = { 'v', 'n' },
                 '<Leader>m',
                 '<cmd>MCstart<cr>',
-                desc = 'Create a selection for selected text or word under the cursor',
+                desc = '[M]ultiCursor Start',
             },
     },
   },
@@ -366,7 +363,31 @@ require('lazy').setup({
     opts = {
       -- your options
     },
+    keys = {
+      { "<leader>u", "<cmd>lua require('undotree').toggle()<cr>", desc = "[U]ndoTree" }
+    },
+
+
   },
+
+  {
+  "NeogitOrg/neogit",
+  lazy = true,
+  dependencies = {
+    "nvim-lua/plenary.nvim",         -- required
+    -- "sindrets/diffview.nvim",        -- optional - Diff integration
+
+    -- Only one of these is needed.
+    -- "nvim-telescope/telescope.nvim", -- optional
+    "ibhagwan/fzf-lua",              -- optional
+    -- "nvim-mini/mini.pick",           -- optional
+    -- "folke/snacks.nvim",             -- optional
+  },
+  cmd = "Neogit",
+  keys = {
+    { "<leader>g", "<cmd>Neogit<cr>", desc = "[N]eogit UI" }
+  }
+},
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -559,7 +580,7 @@ require('lazy').setup({
 
       vim.keymap.set('n', '<leader>s~', function()
         builtin.find_files { cwd = 'C:\\Users\\nicks PC\\' }
-      end, { desc = '[S]earch [~] for home directory'})
+      end, { desc = '[S]earch [~] for home directory' })
     end,
   },
 
