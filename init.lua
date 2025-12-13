@@ -191,6 +191,9 @@ vim.o.confirm = true
 -- NOTE: [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- UndoTree Toggle
+vim.keymap.set('n', '<leader>u', require('undotree').toggle, { noremap = true, silent = true })
+
 -- I started using a nvim server, so I would like ':q' to mean ':detach' so I don't just keep closing my buffers over and over again. Will sort of act like notepad++
 -- vim.keymap.set('n', '<cmd>q<Cr>', vim.func.nvim_buf_detach(0), { noremap = true, silent = true, desc = 'Override :q to detach instead' })
 -- vim.keymap.del('n', '<c-z>')
@@ -354,6 +357,14 @@ require('lazy').setup({
                 '<cmd>MCstart<cr>',
                 desc = 'Create a selection for selected text or word under the cursor',
             },
+    },
+  },
+  {
+    "jiaoshijie/undotree",
+    -- -@module 'undotree.collector'
+    -- -@type UndoTreeCollector.Opts
+    opts = {
+      -- your options
     },
   },
 
