@@ -320,6 +320,7 @@ require('lazy').setup({
       },
     },
   },
+
   {
     'MeanderingProgrammer/render-markdown.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
@@ -356,6 +357,7 @@ require('lazy').setup({
             },
     },
   },
+
   {
     "jiaoshijie/undotree",
     -- -@module 'undotree.collector'
@@ -366,28 +368,46 @@ require('lazy').setup({
     keys = {
       { "<leader>u", "<cmd>lua require('undotree').toggle()<cr>", desc = "[U]ndoTree" }
     },
-
-
   },
 
   {
-  "NeogitOrg/neogit",
-  lazy = true,
-  dependencies = {
-    "nvim-lua/plenary.nvim",         -- required
-    -- "sindrets/diffview.nvim",        -- optional - Diff integration
+    "NeogitOrg/neogit",
+    lazy = true,
+    dependencies = {
+      "nvim-lua/plenary.nvim",         -- required
+      -- "sindrets/diffview.nvim",        -- optional - Diff integration
 
-    -- Only one of these is needed.
-    -- "nvim-telescope/telescope.nvim", -- optional
-    "ibhagwan/fzf-lua",              -- optional
-    -- "nvim-mini/mini.pick",           -- optional
-    -- "folke/snacks.nvim",             -- optional
+      -- Only one of these is needed.
+      -- "nvim-telescope/telescope.nvim", -- optional
+      "ibhagwan/fzf-lua",              -- optional
+      -- "nvim-mini/mini.pick",           -- optional
+      -- "folke/snacks.nvim",             -- optional
+    },
+    cmd = "Neogit",
+    keys = {
+      { "<leader>g", "<cmd>Neogit<cr>", desc = "[N]eogit UI" }
+    },
   },
-  cmd = "Neogit",
-  keys = {
-    { "<leader>g", "<cmd>Neogit<cr>", desc = "[N]eogit UI" }
-  }
-},
+
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+      opts = {
+        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+        multiwindow = false, -- Enable multiwindow support.
+        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+        line_numbers = true,
+        multiline_threshold = 20, -- Maximum number of lines to show for a single context
+        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+        -- Separator between context and content. Should be a single character string, like '-'.
+        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+        separator = nil,
+        zindex = 20, -- The Z-index of the context window
+        on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+      },
+  },
+
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
