@@ -107,6 +107,7 @@ vim.api.nvim_create_autocmd("UIEnter", {
     end
   end,
 })
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -166,7 +167,7 @@ vim.o.splitbelow = true
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
---
+
 --  Notice listchars is set using `vim.opt` instead of `vim.o`.
 --  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
 --   See `:help lua-options`
@@ -190,6 +191,7 @@ vim.o.confirm = true
 
 -- NOTE: [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
+vim.keymap.set('c', 'help', 'vert help', { desc = 'Change default window arrangement to vertical', noremap = true, silent = true })
 
 -- I started using a nvim server, so I would like ':q' to mean ':detach' so I don't just keep closing my buffers over and over again. Will sort of act like notepad++
 -- vim.keymap.set('n', '<cmd>q<Cr>', vim.func.nvim_buf_detach(0), { noremap = true, silent = true, desc = 'Override :q to detach instead' })
@@ -218,7 +220,7 @@ vim.api.nvim_set_keymap('n', '<S-F7>', "<cmd>CompilerToggleResults<cr>", { norem
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
---
+
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
@@ -231,7 +233,7 @@ vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
---
+
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
@@ -257,6 +259,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank()
   end,
 })
+
 -- NOTE: [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -281,7 +284,7 @@ rtp:prepend(lazypath)
 --
 --  To update plugins you can run
 --    :Lazy update
---
+
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
@@ -291,7 +294,6 @@ require('lazy').setup({
   -- keys can be used to configure plugin behavior/loading/etc.
   --
   -- Use `opts = {}` to automatically pass options to a plugin's `setup()` function, forcing the plugin to be loaded.
-  --
 
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
   -- If you prefer to call `setup` explicitly, use:
@@ -308,6 +310,7 @@ require('lazy').setup({
   -- options to `gitsigns.nvim`.
   --
   -- See `:help gitsigns` to understand what the configuration keys do
+
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -413,11 +416,13 @@ require('lazy').setup({
           return vim.fn.executable 'make' == 1
         end,
       },
+
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
+
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
       -- it can fuzzy find! It's more than just a "file finder", it can search
@@ -440,6 +445,7 @@ require('lazy').setup({
 
       -- NOTE: [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
+
       require('telescope').setup {
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
@@ -468,13 +474,15 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sff', builtin.find_files, { desc = '[S]earch [F]iles [F]' })
-      vim.keymap.set('n', '<leader>sfh', '<cmd>Telescope<space>find_files<space>find_command=rg,--ignore,--hidden,--files prompt_prefix=🔍<CR>', { desc = '[S]earch [F]iles [H]idden' })
+
+      vim.keymap.set('n', '<leader>sfh', function() builtin.find_files { hidden = 'true'} end, { desc = '[S]earch [F]iles [H]idden', })
+
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+      vim.keymap.set('n', '<leader>s.', function() builtin.oldfiles(require('telescope.themes').get_dropdown({previewer = false})) end, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
 
@@ -486,15 +494,6 @@ require('lazy').setup({
           previewer = false,
         })
       end, { desc = '[/] Fuzzily search in current buffer' })
-      --
--- TODO: Find out why this doesn't work
-      -- vim.keymap.set('n', '<leader>si', function()
-      --   builtin.find_files {
-      --     find_command = 'rg,--ignore,--hidden,--files',
-      --   }
-      -- end, { desc = '[S]earch [/] in Open Filesasdfasdfasdf' })
-
-
 
       -- It's also possible to pass additional configuration options.
       --  See `:help telescope.builtin.live_grep()` for information about particular keys
@@ -505,70 +504,20 @@ require('lazy').setup({
         }
       end, { desc = '[S]earch [/] in Open Files' })
 
-      -- Shortcut for searching your Neovim configuration files
+      -- Shortcut for searching your home directory (and hidden files)
       vim.keymap.set('n', '<leader>sn', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config' }
+      builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
 
       vim.keymap.set('n', '<leader>s~', function()
-        builtin.find_files { cwd = 'C:\\Users\\nicks PC\\' }
+        builtin.find_files {
+          cwd = 'C:\\Users\\nicks PC\\',
+          hidden = 'true',
+        }
       end, { desc = '[S]earch [~] for home directory' })
     end,
   },
 
-  -- {
-  --   "ahmedkhalf/project.nvim",
-  --   config = function()
-  --     require("project_nvim").setup {
-  --
-  --       -- your configuration comes here
-  --       -- or leave it empty to use the default settings
-  --       -- Manual mode doesn't automatically change your root directory, so you have
-  --       -- the option to manually do so using `:ProjectRoot` command.
-  --       manual_mode = false,
-  --
-  --       -- Methods of detecting the root directory. **"lsp"** uses the native neovim
-  --       -- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
-  --       -- order matters: if one is not detected, the other is used as fallback. You
-  --       -- can also delete or rearangne the detection methods.
-  --       detection_methods = { "lsp", "pattern" },
-  --
-  --       -- All the patterns used to detect root dir, when **"pattern"** is in
-  --       -- detection_methods
-  --       patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
-  --
-  --       -- Table of lsp clients to ignore by name
-  --       -- eg: { "efm", ... }
-  --       ignore_lsp = {},
-  --
-  --       -- Don't calculate root dir on specific directories
-  --       -- Ex: { "~/.cargo/*", ... }
-  --       exclude_dirs = {},
-  --
-  --       -- Show hidden files in telescope
-  --       show_hidden = false,
-  --
-  --       -- When set to false, you will get a message when project.nvim changes your
-  --       -- directory.
-  --       silent_chdir = false,
-  --
-  --       -- What scope to change the directory, valid options are
-  --       -- * global (default)
-  --       -- * tab
-  --       -- * win
-  --       scope_chdir = 'global',
-  --
-  --       -- Path where project.nvim will store the project history for use in
-  --       -- telescope
-  --       datapath = vim.fn.stdpath("data"), -- refer to the configuration section below
-  --
-  --       -- Telescope Integration
-  --       -- require('telescope').load_extension('projects'),
-  --       -- require'telescope'.extensions.projects.projects{},
-  --     }
-  --   end
-  -- },
-  --
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.
