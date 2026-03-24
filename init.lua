@@ -191,7 +191,15 @@ vim.o.confirm = true
 
 -- NOTE: [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
-vim.keymap.set('c', 'help', 'vert help', { desc = 'Change default window arrangement to vertical', noremap = true, silent = true })
+
+-- Open help window in a vertical split to the right.
+vim.api.nvim_create_autocmd("BufWinEnter", {
+    group = vim.api.nvim_create_augroup("help_window_right", {}),
+    pattern = { "*" },
+    callback = function()
+        if vim.o.filetype == 'help' then vim.cmd.wincmd("L") end
+    end
+})
 
 -- I started using a nvim server, so I would like ':q' to mean ':detach' so I don't just keep closing my buffers over and over again. Will sort of act like notepad++
 -- vim.keymap.set('n', '<cmd>q<Cr>', vim.func.nvim_buf_detach(0), { noremap = true, silent = true, desc = 'Override :q to detach instead' })
@@ -511,7 +519,7 @@ require('lazy').setup({
 
       vim.keymap.set('n', '<leader>s~', function()
         builtin.find_files {
-          cwd = 'C:\\Users\\nicks PC\\',
+          cwd = os.getenv('userprofile'),
           hidden = 'true',
         }
       end, { desc = '[S]earch [~] for home directory' })

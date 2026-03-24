@@ -146,6 +146,24 @@ return {
 		},
 	},
 
+	{
+		"obsidian-nvim/obsidian.nvim",
+		version = "*", -- recommended, use latest release instead of latest commit
+		ft = "markdown",
+		---@module 'obsidian'
+		---@type obsidian.config
+		opts = {
+			legacy_commands = false, -- this will be removed in the next major release
+			-- Needs ui to be false because it is incompatible with render-markdown-nvim, see :checkhealth and search /obsidian.
+			ui = { enable = false },
+			workspaces = {
+				{
+					name = "personal",
+					path = "~/Obsidian/Knowledge v1.2025.11.16/",
+				},
+			},
+		},
+	},
 
 
 }
