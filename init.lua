@@ -1122,10 +1122,19 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+
+    -- If treesitter is not working on windows, it is likely because neovim is trying to use git-bash's cc.exe for compiling c, use this to force it to use gcc, uncomment this:
+    -- init = function()
+    --   vim.env.CC = 'gcc'
+    -- end,
+    --
+    -- Though this changed what :checkhealth reported, it did not fix tree-sitter problems
+
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- NOTE: [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
+
       ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
